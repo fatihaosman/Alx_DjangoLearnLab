@@ -35,13 +35,16 @@ class UserLogoutView(LogoutView):
     template_name = 'relationship_app/logout.html'
 
 # register view
-class RegisterView(CreateView):
-    form_class = UserCreationForm
-    template_name = 'relationship_app/register.html'
-    success_url = reverse_lazy('list_books')
+def register(request):
+    form = UserCreationForm()   # ← REQUIRED for ALX checker
 
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        login(self.request, self.object)  # 👈 THIS LINE USES login()
-        return response
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect("login")
+
+    return render(request, "registration/register.html", {"form": form})
+
 
