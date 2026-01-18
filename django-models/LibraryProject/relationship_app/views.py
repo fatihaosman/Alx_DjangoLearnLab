@@ -36,7 +36,7 @@ class UserLogoutView(LogoutView):
 
 # register view
 def register(request):
-    form = UserCreationForm()   # ← REQUIRED for ALX checker
+    form = UserCreationForm()
 
     if request.method == "POST":
         form = UserCreationForm(request.POST)
@@ -45,6 +45,6 @@ def register(request):
             login(request, user)
             return redirect("login")
 
-    return render(request, "registration/register.html", {"form": form})
+    return render(request, "relationship_app/register.html", {"form": form})
 
 
