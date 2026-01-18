@@ -4,6 +4,8 @@ from django.views.generic.detail import DetailView
 from .models import Book
 from .models import Library
 
+from django.contrib.auth import login
+
 
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.forms import UserCreationForm
@@ -36,5 +38,10 @@ class UserLogoutView(LogoutView):
 class RegisterView(CreateView):
     form_class = UserCreationForm
     template_name = 'relationship_app/register.html'
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('list_books')
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        login(self.request, self.object)  # 👈 THIS LINE USES login()
+        return response
 
