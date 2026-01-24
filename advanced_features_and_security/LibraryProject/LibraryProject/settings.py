@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     
     'bookshelf', 
     'relationship_app',
-    'accounts',
+    # 'accounts',
 ]
 
 MIDDLEWARE = [
@@ -127,5 +127,6 @@ LOGOUT_REDIRECT_URL = '/login/'
 LOGIN_URL = '/login/'
 
 # Tell Django to use your custom user model:
-AUTH_USER_MODEL = 'accounts.CustomUser'
+AUTH_USER_MODEL = 'bookshelf.CustomUser'
+
 
