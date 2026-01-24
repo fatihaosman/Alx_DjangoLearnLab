@@ -163,4 +163,5 @@ CSRF_COOKIE_SECURE = True
 
 
 #implementing secure headers
-v
+# Tell Django to trust the X-Forwarded-Proto header when behind a proxy
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
