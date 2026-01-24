@@ -129,6 +129,18 @@ LOGIN_URL = '/login/'
 AUTH_USER_MODEL = 'bookshelf.CustomUser'
 
 
+# Force all HTTP requests to redirect to HTTPS
+SECURE_SSL_REDIRECT = True
+
+# HTTP Strict Transport Security (HSTS)
+# Instructs browsers to only use HTTPS for 1 year
+SECURE_HSTS_SECONDS = 31536000
+
+# Apply HSTS to all subdomains
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
+# Allow domain to be included in browser HSTS preload list
+SECURE_HSTS_PRELOAD = True
 
 
 
@@ -140,3 +152,15 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
+
+
+
+#enforce secure cookies# Ensure session cookies are only sent over HTTPS
+SESSION_COOKIE_SECURE = True
+
+# Ensure CSRF cookies are only sent over HTTPS
+CSRF_COOKIE_SECURE = True
+
+
+#implementing secure headers
+v
