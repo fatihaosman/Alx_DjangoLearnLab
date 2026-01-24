@@ -6,13 +6,13 @@ from django.db import models
 
 # Create your models here.
 
-class Book(models.Model):
-  title = models.CharField(max_length=200)
-  author = models.CharField(max_length=100)
-  publication_year = models.IntegerField()
+# class Book(models.Model):
+#   title = models.CharField(max_length=200)
+#   author = models.CharField(max_length=100)
+#   publication_year = models.IntegerField()
   
-  def __str__(self):
-        return self.title
+#   def __str__(self):
+#         return self.title
 
 
 class CustomUserManager(BaseUserManager):
@@ -46,3 +46,27 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.username
+
+
+class Author(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+
+class Book(models.Model):
+    title = models.CharField(max_length=100)
+    author = models.ForeignKey('Author', on_delete=models.CASCADE)
+    publication_year = models.IntegerField(null=True, blank=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        permissions = (
+            ("can_view", "Can view book"),
+            ("can_create", "Can create book"),
+            ("can_edit", "Can edit book"),
+            ("can_delete", "Can delete book"),
+        )
