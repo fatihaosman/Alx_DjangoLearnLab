@@ -25,10 +25,20 @@ def book_list(request):
 
 
 # views.py
+# LibraryProject/bookshelf/views.py
 from django.shortcuts import render
 from .models import Book
+from .forms import ExampleForm
 
 def book_list(request):
-    search_term = request.GET.get('q', '')  # get query parameter 'q'
-    books = Book.objects.filter(title__icontains=search_term)
-    return render(request, 'bookshelf/book_list.html', {'books': books})
+    form = ExampleForm(request.GET or None)
+    books = Book.objects.all()
+    
+    if form.is_valid():
+        search_term = form.cleaned_data.get('title')
+        if search_term:
+            # Safe ORM query to avoid SQL injection
+            books = books.filter(title__icontains=search_term)
+    
+    return render(request, 'bookshelf/book_list.html', {'books': books, 'form': form})
+
