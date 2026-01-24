@@ -22,3 +22,13 @@ from .models import Book
 def book_list(request):
     books = Book.objects.all()
     return render(request, 'bookshelf/book_list.html', {'books': books})
+
+
+# views.py
+from django.shortcuts import render
+from .models import Book
+
+def book_list(request):
+    search_term = request.GET.get('q', '')  # get query parameter 'q'
+    books = Book.objects.filter(title__icontains=search_term)
+    return render(request, 'bookshelf/book_list.html', {'books': books})
