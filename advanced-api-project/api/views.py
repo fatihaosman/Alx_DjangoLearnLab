@@ -1,5 +1,7 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
 
 from .models import Book
 from .serializers import BookSerializer
@@ -16,6 +18,18 @@ class BookListView(generics.ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticatedOrReadOnly] # read-only for everyone
+    # 1. Filtering
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    
+    # Fields for filtering using ?field=value
+    filterset_fields = ['title', 'author__name', 'publication_year']
+
+    # Fields for searching using ?search=query
+    search_fields = ['title', 'author__name']
+
+    # Fields for ordering using ?ordering=field_name
+    ordering_fields = ['title', 'publication_year']
+    ordering = ['title']  # default ordering
 
 # ---------------------------
 # Retrieve a single book by ID
@@ -72,3 +86,25 @@ class BookDeleteView(generics.DestroyAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticated]
+
+
+
+
+
+# 1️⃣ What we need to do
+
+# We are enhancing the BookListView so users can:
+
+# Filter books by title, author, publication_year
+
+# Search books by title or author
+
+# Order books by title or publication_year
+
+# DRF provides built-in tools for this:
+
+# DjangoFilterBackend → for filtering
+
+# SearchFilter → for searching
+
+# OrderingFilter → for ordering
