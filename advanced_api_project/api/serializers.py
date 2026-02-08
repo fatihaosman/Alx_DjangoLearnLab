@@ -43,3 +43,25 @@ class AuthorSerializer(serializers.ModelSerializer): #Name comes from related_na
     class Meta:
         model = Author
         fields = ['id', 'name', 'books']
+
+
+
+# python manage.py shellp\Introduction_to_Django\advanced_api_pr
+# >> ct>
+# 14 objects imported automatically (use -v 2 for details).
+
+# Ctrl click to launch VS Code Native REPL
+# Python 3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)] on win32
+# Type "help", "copyright", "credits" or "license" for more information.
+# (InteractiveConsole)
+# >>> from api.models import Author, Book
+# >>> from api.serializers import AuthorSerializer
+# >>> 
+# >>> author = Author.objects.create(name="Chimamanda Ngozi Adichie")
+# >>> Book.objects.create(title="Half of a Yellow Sun", publication_year=2006, author=author)
+# <Book: Half of a Yellow Sun>
+# >>> 
+# >>> serializer = AuthorSerializer(author)
+# >>> print(serializer.data)
+# {'id': 1, 'name': 'Chimamanda Ngozi Adichie', 'books': [{'id': 1, 'title': 'Half of a Yellow Sun', 'publication_year': 2006, 'author': 1}]}
+# >>>
