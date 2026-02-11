@@ -19,7 +19,7 @@ class Post(models.Model):
           #Links a post to a user,  one user can have many posts
       #If user is deleted → their posts are deleted too
       
-      #    related_name='posts'
+      #related_name='posts'
        # allows: user.posts.all() to get all posts by that user
     )
 
