@@ -1,7 +1,126 @@
-<h2>Register</h2>
+{% comment %} <h2>Register</h2>
 
 <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
+    {% csrf_token %} {% endcomment %}
+    {% comment %} “Django, please turn my form fields into HTML” {% endcomment %}
+    {% comment %} {{ form.as_p }}
     <button type="submit">Sign Up</button>
-</form>
+</form> {% endcomment %}
+
+
+{% comment %} What CSRF means (simple)
+
+CSRF = Cross Site Request Forgery
+
+Without CSRF:
+
+A hacker could submit forms on behalf of users
+
+Django would accept it
+
+With CSRF:
+
+Django adds a secret token
+
+Only your site can submit valid forms {% endcomment %}
+
+{% comment %} {% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <!-- Link to your CSS -->
+    <link rel="stylesheet" href="{% static 'blog/css/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h2>Register</h2>
+        <form method="post" class="form-box">
+            {% csrf_token %} {% endcomment %}
+            {% comment %} {{ form.as_p }} {% endcomment %}
+            {% comment %} <button type="submit" class="btn">Sign Up</button>
+        </form>
+        <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+    </div>
+</body>
+</html> {% endcomment %}
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+
+    <!-- Link to CSS -->
+    <link rel="stylesheet" href="{% static 'blog/css/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h2>Register</h2>
+
+        <form method="post" class="form-box">
+            {% csrf_token %}
+
+            <!-- Username -->
+            <div class="form-group">
+                <label for="id_username">Username</label>
+                {{ form.username }}
+
+                {% if form.username.errors %}
+                    <small class="error">
+                        {{ form.username.errors.0 }}
+                    </small>
+                {% endif %}
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+                <label for="id_email">Email</label>
+                {{ form.email }}
+
+                {% if form.email.errors %}
+                    <small class="error">
+                        {{ form.email.errors.0 }}
+                    </small>
+                {% endif %}
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+                <label for="id_password1">Password</label>
+                {{ form.password1 }}
+
+                {% if form.password1.errors %}
+                    <small class="error">
+                        {{ form.password1.errors.0 }}
+                    </small>
+                {% endif %}
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="form-group">
+                <label for="id_password2">Confirm Password</label>
+                {{ form.password2 }}
+
+                {% if form.password2.errors %}
+                    <small class="error">
+                        {{ form.password2.errors.0 }}
+                    </small>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn">Sign Up</button>
+        </form>
+
+        <p>
+            Already have an account?
+            <a href="{% url 'login' %}">Login here</a>
+        </p>
+    </div>
+</body>
+</html>
+
