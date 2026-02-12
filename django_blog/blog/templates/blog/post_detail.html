@@ -1,4 +1,3 @@
-
 <hr>
 <h3>Comments</h3>
 
@@ -7,11 +6,19 @@
         <strong>{{ comment.author }}</strong>
         <p>{{ comment.content }}</p>
         <small>{{ comment.created_at }}</small>
+
+        {% if user == comment.author %}
+            <br>
+            <a href="{% url 'comment-update' comment.pk %}">Edit</a>
+            <a href="{% url 'comment-delete' comment.pk %}">Delete</a>
+        {% endif %}
+
         <hr>
     </div>
 {% empty %}
     <p>No comments yet.</p>
 {% endfor %}
+
 
 
 {% if user.is_authenticated %}

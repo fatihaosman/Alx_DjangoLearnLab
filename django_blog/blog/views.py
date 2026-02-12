@@ -8,9 +8,10 @@ from .models import Post, Comment
 from .forms import PostForm, CommentForm 
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.views.generic import CreateView
+from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-
-from django.views.generic import UpdateView, DeleteView
 from django.contrib.auth.mixins import UserPassesTestMixin
 
 
@@ -145,10 +146,6 @@ class PostListView(ListView):
     context_object_name = 'posts'
     ordering = ['-published_date']
  
- #view single post   
-class PostDetailView(DetailView):
-    model = Post
-    template_name = 'blog/post_detail.html'
     
  #cretae a post
 class PostCreateView(LoginRequiredMixin, CreateView):
@@ -200,19 +197,32 @@ class PostDetailView(DetailView):
         context['comment_form'] = CommentForm()
         return context
       
-@login_required
-def add_comment(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+# @login_required
+# def add_comment(request, pk):
+#     post = get_object_or_404(Post, pk=pk)
 
-    if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.author = request.user
-            comment.post = post
-            comment.save()
+#     if request.method == 'POST':
+#         form = CommentForm(request.POST)
+#         if form.is_valid():
+#             comment = form.save(commit=False)
+#             comment.author = request.user
+#             comment.post = post
+#             comment.save()
 
-    return redirect('post-detail', pk=pk)
+#     return redirect('post-detail', pk=pk)
+class CommentCreateView(LoginRequiredMixin, CreateView):
+    model = Comment
+    form_class = CommentForm
+
+    def form_valid(self, form):
+        post = get_object_or_404(Post, pk=self.kwargs['pk'])
+        form.instance.author = self.request.user
+        form.instance.post = post
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('post-detail', kwargs={'pk': self.object.post.pk})
+
 
 
 #update a comment
