@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User  # Django's built-in user model
 
+from django.utils import timezone
+
 
 class Post(models.Model):
     # Title of the blog post
@@ -14,7 +16,9 @@ class Post(models.Model):
     #You don’t need to manually set it when creating a new post
     published_date = models.DateTimeField(auto_now_add=True)
 
-    # Author of the post (one user can have many posts)
+    # Auth
+    # 
+    # or of the post (one user can have many posts)
     author = models.ForeignKey(   User,    on_delete=models.CASCADE
           #Links a post to a user,  one user can have many posts
       #If user is deleted → their posts are deleted too
@@ -26,3 +30,17 @@ class Post(models.Model):
     def __str__(self):
         # This controls how the post appears in admin and shell
         return self.title
+      
+      
+     
+# comment model
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'Comment by {self.author} on {self.post}'
+
