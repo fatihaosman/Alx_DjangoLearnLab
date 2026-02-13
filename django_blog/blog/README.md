@@ -277,6 +277,34 @@ Only logged-in users can create comments
 
 Only the comment author can edit or delete their comment
 
+## 🔖 Tagging and Search Functionality
+
+Our Django blog includes advanced features for **tagging posts** and **searching content**, making it easier for users to find relevant posts.
+
+### Tagging
+- Each post can have multiple tags.
+- Tags are keywords that categorize posts (e.g., `django`, `python`, `web`).
+- Users can click on a tag to view all posts associated with that tag.
+- Implemented using a **many-to-many relationship** between `Post` and `Tag` models.
+
+### Search
+- Users can search posts by:
+  - Post title
+  - Post content
+  - Tags
+- Implemented with Django’s **Q objects** for flexible multi-field search.
+- Example: Searching `django` will return all posts containing `django` in the title, content, or tags.
+
+### URL Patterns
+- **Search**: `/search/?q=<keyword>`  
+- **Tag filtering**: `/tags/<tag_slug>/`
+
+### Templates
+- Search results are shown in `search_results.html`.
+- Tag-specific posts are displayed in `tag_posts.html`.
+- Each post shows its tags, which link to the filtered tag view.
+
+This functionality enhances user experience by making posts **easily discoverable** and **well-organized**.
 
 
 ## How to Test
