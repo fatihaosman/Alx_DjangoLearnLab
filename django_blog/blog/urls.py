@@ -2,7 +2,7 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 
 from api_project.api import views
-from .views import TagPostListView, register_view, profile_view
+from .views import PostByTagListView, TagPostListView, register_view, profile_view, search_posts
 
 
 from .views import (
@@ -53,8 +53,13 @@ urlpatterns = [
     path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment-delete'),
     
     
-    path('tags/<str:tag_name>/', TagPostListView.as_view(), name='tag-posts'),
-    path('tags/<str:tag_name>/', views.posts_by_tag, name='posts_by_tag'),
+    # path('tags/<str:tag_name>/', TagPostListView.as_view(), name='tag-posts'),
+    # path('tags/<str:tag_name>/', views.posts_by_tag, name='posts_by_tag'),
+    # ✅ Tag URL expected by ALX
+    path('tags/<slug:tag_slug>/', PostByTagListView.as_view(), name='posts-by-tag'),
+
+    # ✅ Search URL
+    path('search/', search_posts, name='search-posts'),
 
 ]
 
