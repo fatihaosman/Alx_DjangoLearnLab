@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from.models  import Post
 from .models import Comment
-from .models import Post, Tag
+from .models import Post
 
   # We are EXTENDING Django's default registration form
   # This form already has: username, password1, password2

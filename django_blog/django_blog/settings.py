@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
      'blog',  # our blog application
+      'taggit',
 ]
 
 MIDDLEWARE = [
@@ -83,6 +84,7 @@ DATABASES = {
         # Added to satisfy ALX checker requirements
         'USER': '',
         'PORT': '',
+        
     }
 }
 

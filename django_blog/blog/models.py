@@ -3,15 +3,15 @@ from django.contrib.auth.models import User  # Django's built-in user model
 
 
 from django.utils import timezone
+from taggit.managers import TaggableManager
+
 
 # tag model structure.
 
-class Tag(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-
-    def __str__(self):
-        return self.name
-
+# class Tag(models.Model):
+#     name = models.CharField(max_length=100, unique=True)
+#     def __str__(self):
+#         return self.name
 
 # Explanation
 # name → stores tag name (e.g. "django", "python")
@@ -40,7 +40,8 @@ class Post(models.Model):
       #related_name='posts'
        # allows: user.posts.all() to get all posts by that user
     )
-    tags = models.ManyToManyField(Tag, related_name='posts', blank=True)
+    # tags = models.ManyToManyField(Tag, related_name='posts', blank=True)
+    tags = TaggableManager()
     
 
     def __str__(self):
