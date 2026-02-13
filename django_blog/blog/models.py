@@ -1,8 +1,22 @@
 from django.db import models
 from django.contrib.auth.models import User  # Django's built-in user model
 
+
 from django.utils import timezone
 
+# tag model structure.
+
+class Tag(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
+# Explanation
+# name → stores tag name (e.g. "django", "python")
+# unique=True → prevents duplicate tags
+# __str__ → makes admin readable
 
 class Post(models.Model):
     # Title of the blog post
@@ -26,6 +40,8 @@ class Post(models.Model):
       #related_name='posts'
        # allows: user.posts.all() to get all posts by that user
     )
+    tags = models.ManyToManyField(Tag, related_name='posts', blank=True)
+    
 
     def __str__(self):
         # This controls how the post appears in admin and shell
@@ -43,4 +59,8 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'Comment by {self.author} on {self.post}'
+
+
+
+
 
