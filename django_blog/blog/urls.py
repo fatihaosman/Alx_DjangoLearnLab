@@ -1,5 +1,7 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
+
+from api_project.api import views
 from .views import TagPostListView, register_view, profile_view
 
 
@@ -52,6 +54,7 @@ urlpatterns = [
     
     
     path('tags/<str:tag_name>/', TagPostListView.as_view(), name='tag-posts'),
+    path('tags/<str:tag_name>/', views.posts_by_tag, name='posts_by_tag'),
 
 ]
 
