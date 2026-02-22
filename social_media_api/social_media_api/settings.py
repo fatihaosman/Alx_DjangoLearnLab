@@ -121,7 +121,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 # Default primary key field type
-AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 
 REST_FRAMEWORK = {

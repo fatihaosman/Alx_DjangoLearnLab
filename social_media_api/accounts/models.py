@@ -1,16 +1,16 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-class User(AbstractUser):
+class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
     full_name = models.CharField(max_length=255, blank=True)
     bio = models.TextField(blank=True)
     profile_picture = models.ImageField(upload_to='profile_pics/', blank=True)
-    
+
     # Many-to-many self-relationship for following users
     following = models.ManyToManyField(
-        'self', 
-        symmetrical=False,   # Direction matters: A follows B != B follows A
+        'self',
+        symmetrical=False,      # A follows B != B follows A
         related_name='followers',  # Reverse relation: who follows this user
         blank=True
     )
