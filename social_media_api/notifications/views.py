@@ -1,12 +1,11 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework import status
-from rest_framework import generics
+from rest_framework import status, generics
+from django.contrib.contenttypes.models import ContentType
 
 from .models import Post, Like
 from notifications.models import Notification
-from django.contrib.contenttypes.models import ContentType  
 
 
 class LikePostView(APIView):
@@ -14,7 +13,6 @@ class LikePostView(APIView):
 
     def post(self, request, pk):
         post = generics.get_object_or_404(Post, pk=pk)
-
         like, created = Like.objects.get_or_create(user=request.user, post=post)
 
         if not created:
@@ -36,13 +34,13 @@ class LikePostView(APIView):
             {"message": "Post liked successfully."},
             status=status.HTTP_201_CREATED
         )
-        
+
+
 class UnlikePostView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, pk):
         post = generics.get_object_or_404(Post, pk=pk)
-
         like = Like.objects.filter(user=request.user, post=post).first()
 
         if not like:
