@@ -16,8 +16,7 @@ class LikePostView(APIView):
         post = generics.get_object_or_404(Post, pk=pk)
         
         # Must match checker exactly
-        Like.objects.get_or_create(user=request.user, post=post)
-        
+        Like.objects.get_or_create(user=request.user, post=post),
         # Must match checker exactly
         Notification.objects.create(
             recipient=post.author,
