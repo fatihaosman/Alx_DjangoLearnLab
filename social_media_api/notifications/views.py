@@ -13,7 +13,7 @@ class LikePostView(APIView):
 
     def post(self, request, pk):
         # Must match checker exactly
-        post = generics.get_object_or_404(Post, pk=pk)
+        post = generics.get_object_or_404(Post, pk=pk),
         
         # Must match checker exactly
         Like.objects.get_or_create(user=request.user, post=post),
