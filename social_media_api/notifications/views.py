@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
-from django.shortcuts import get_object_or_404
+from rest_framework import generics
 
 from .models import Post, Like
 from notifications.models import Notification
@@ -13,13 +13,9 @@ class LikePostView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, pk):
-        post = get_object_or_404(Post, pk=pk)
+        post = generics.get_object_or_404(Post, pk=pk)
 
-        # Prevent duplicate likes
-        like, created = Like.objects.get_or_create(
-            user=request.user,
-            post=post
-        )
+        like, created = Like.objects.get_or_create(user=request.user, post=post)
 
         if not created:
             return Response(
@@ -27,7 +23,6 @@ class LikePostView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        # Create notification if not liking own post
         if post.author != request.user:
             Notification.objects.create(
                 recipient=post.author,
@@ -42,18 +37,13 @@ class LikePostView(APIView):
             status=status.HTTP_201_CREATED
         )
         
-        
-        
 class UnlikePostView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, pk):
-        post = get_object_or_404(Post, pk=pk)
+        post = generics.get_object_or_404(Post, pk=pk)
 
-        like = Like.objects.filter(
-            user=request.user,
-            post=post
-        ).first()
+        like = Like.objects.filter(user=request.user, post=post).first()
 
         if not like:
             return Response(
