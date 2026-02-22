@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import User
 from .serializers import RegisterSerializer, LoginSerializer, UserSerializer
-
+from rest_framework import generics, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -47,24 +47,25 @@ class ProfileView(generics.RetrieveAPIView):
       
 
 
-class FollowUserView(APIView):
+class FollowUserView(generics.GenericAPIView):
+    queryset = User.objects.all()
     permission_classes = [IsAuthenticated]
 
     def post(self, request, user_id):
-        user_to_follow = get_object_or_404(User, id=user_id)
+        user_to_follow = self.get_queryset().get(id=user_id)
 
-        # Prevent following yourself
         if user_to_follow == request.user:
             return Response({"error": "You cannot follow yourself"}, status=400)
 
         request.user.following.add(user_to_follow)
         return Response({"message": f"You are now following {user_to_follow.email}"})
 
-class UnfollowUserView(APIView):
+class UnfollowUserView(generics.GenericAPIView):
+    queryset = User.objects.all()
     permission_classes = [IsAuthenticated]
 
     def post(self, request, user_id):
-        user_to_unfollow = get_object_or_404(User, id=user_id)
+        user_to_unfollow = self.get_queryset().get(id=user_id)
 
         request.user.following.remove(user_to_unfollow)
         return Response({"message": f"You have unfollowed {user_to_unfollow.email}"})
