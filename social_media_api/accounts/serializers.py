@@ -2,7 +2,8 @@ from rest_framework import serializers
 from django.contrib.auth import authenticate, get_user_model
 from rest_framework.authtoken.models import Token
 
-User = get_user_model()
+User = get_user_model() #returns the active user taht was defined in : 
+# AUTH_USER_MODEL = 'accounts.User'
 
 
 class UserSerializer(serializers.ModelSerializer):
